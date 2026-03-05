@@ -1,26 +1,18 @@
-import json
-import sys
-sys.path.append("C:\\Users\\esavilova\\PycharmProjects\\ApiProject\\utils")
-
-from http_method import HttpMethod
-
-base_url = "http://rahulshettyacademy.com"
+from http_method import HttpMethods # импорт класса Http_methods
+from faker import Faker
+fake = Faker()
+base_url = "https://rahulshettyacademy.com"
 key = "?key=qaclick123"
-
-"""Методы для тестирования Google maps api"""
 
 
 class GoogleMapsApi:
+    """Класс содержащий методы, для тестирования Google maps api"""
 
     @staticmethod
-    def create_new_location():
-        """Метод для создания новой локации"""
+    def create_new_place():
+        """Метод по созданию новой локации"""
 
-        post_resourse = "/maps/api/place/add/json"  # путь к ресурсу метода post
-        post_url = base_url + post_resourse + key
-        print(post_url)
-
-        json_body = {
+        json_for_create_new_location = {
             "location": {
                 "lat": -38.383494,
                 "lng": 33.427362
@@ -36,19 +28,57 @@ class GoogleMapsApi:
             "language": "French-IN"
         }
 
-        result_post = HttpMethod.post(url=post_url, body=json_body)
+        post_resource = "/maps/api/place/add/json"  # ресурс метода POST
+        post_url = base_url + post_resource + key
+        print(post_url)
+        result_post = HttpMethods.post(post_url,
+                                       json_for_create_new_location)  # отправка метода POST, в котором мы указываем url и body
         print(result_post.json())
         print(result_post.status_code)
         return result_post
 
     @staticmethod
-    def get_location(place_id):
-        """Метод для проверки созданной локации"""
+    def get_new_location(place_id):
+        """Метод для проверки новой локации"""
         get_resource = "/maps/api/place/get/json"
-        get_url = base_url + get_resource + key + "&place_id=" + place_id
+        get_url = base_url + get_resource + key + '&place_id=' + place_id
         print(get_url)
 
-        result_get = HttpMethod.get(get_url)
-        print(result_get.text)
+        result_get = HttpMethods.get(get_url)
+        print(result_get.json())
+        print(result_get.status_code)
         return result_get
 
+    @staticmethod
+    def put_new_location(place_id):
+        """Метод для изменения новой локации"""
+        put_resource = "/maps/api/place/update/json"
+        put_url = base_url + put_resource + key
+        print(put_url)
+
+        json_for_put_location = {
+            "place_id": place_id,
+            "address": fake.address(),
+            "key": "qaclick123"
+        }
+
+        result_put = HttpMethods.put(put_url, json_for_put_location)
+        print(result_put.json())
+        print(result_put.status_code)
+        return result_put
+
+    @staticmethod
+    def delete_new_location(place_id):
+        """Метод для изменения новой локации"""
+        delete_resource = "/maps/api/place/delete/json"
+        delete_url = base_url + delete_resource + key
+        print(delete_url)
+
+        json_for_delete_location = {
+            "place_id": place_id
+        }
+
+        result_delete = HttpMethods.delete(delete_url, json_for_delete_location)
+        print(result_delete.json())
+        print(result_delete.status_code)
+        return result_delete

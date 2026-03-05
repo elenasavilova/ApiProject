@@ -1,28 +1,28 @@
 import requests
 
 
-"""Список HTTP методов"""
+class HttpMethods:
+    """Класс по хранению HTTP методов"""
 
-class HttpMethod:
-    headers = {'Content-Type': 'application/json'}
-    cookie = ""
+    headers = {'Content-type': 'application/json'}  # Заголовки нашего проекта
+    cookie = ""  # Куки нашего проекта
 
-    @staticmethod # статические методы можно вызывать где угодно
+    @staticmethod
     def get(url):
-        result = requests.get(url, headers=HttpMethod.headers, cookies=HttpMethod.cookie, verify=False)
+        result = requests.get(url, headers=HttpMethods.headers, cookies=HttpMethods.cookie)
         return result
 
     @staticmethod
     def post(url, body):
-        result = requests.post(url, json=body, headers=HttpMethod.headers, cookies=HttpMethod.cookie)
+        result = requests.post(url, json=body, headers=HttpMethods.headers, cookies=HttpMethods.cookie)
         return result
 
     @staticmethod
     def put(url, body):
-        result = requests.put(url, json=body, headers=HttpMethod.headers, cookies=HttpMethod.cookie)
+        result = requests.put(url, json=body, headers=HttpMethods.headers, cookies=HttpMethods.cookie)
         return result
 
     @staticmethod
     def delete(url, body):
-        result = requests.delete(url, json=body, headers=HttpMethod.headers, cookies=HttpMethod.cookie)
+        result = requests.delete(url, json=body, headers=HttpMethods.headers, cookies=HttpMethods.cookie)
         return result
